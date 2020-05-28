@@ -2,6 +2,7 @@ package com.cinderous.crystalarchitect.util;
 
 import com.cinderous.crystalarchitect.CrystalArchitect;
 import com.cinderous.crystalarchitect.blocks.*;
+import com.cinderous.crystalarchitect.entities.Cinderling;
 import com.cinderous.crystalarchitect.items.CinderiteDust;
 import com.cinderous.crystalarchitect.items.ItemBase;
 //import com.cinderous.crystalarchitect.particles.ColouredParticle;
@@ -14,11 +15,15 @@ import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.LogBlock;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
@@ -40,12 +45,18 @@ public class RegistryHandler {
     public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<Biome> BIOMES = new DeferredRegister<>(ForgeRegistries.BIOMES, CrystalArchitect.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.ENTITIES, CrystalArchitect.MOD_ID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, CrystalArchitect.MOD_ID);
+
 
     public static void init() {
        // PARTICLE_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BIOMES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+
 
     }
 
@@ -101,6 +112,18 @@ public class RegistryHandler {
     public static final RegistryObject<Item> CINDERWOOD_LOG_ITEM = ITEMS.register("cinderwood_log", () -> new BlockItemBase(CINDERWOOD_LOG.get()));
     public static final RegistryObject<Item> CINDERWOOD_LEAVES_ITEM = ITEMS.register("cinderwood_leaves", () -> new BlockItemBase(CINDERWOOD_LEAVES.get()));
     public static final RegistryObject<Item> CINDERWOOD_SAPLING_ITEM = ITEMS.register("cinderwood_sapling", () -> new BlockItemBase(CINDERWOOD_SAPLING.get()));
+
+    //entities
+    public static final RegistryObject<EntityType<Cinderling>> CINDERLING = ENTITY_TYPES
+            .register("cinderling",
+                    () -> EntityType.Builder.<Cinderling>create(Cinderling::new, EntityClassification.CREATURE)
+                            .size(0.9f, 1.3f)
+                            .build(new ResourceLocation(CrystalArchitect.MOD_ID, "example_entity").toString()));
+
+
+    //sounds
+    public static final RegistryObject<SoundEvent> AMBIENT = SOUNDS.register("entity.cinderling.ambient",
+            () -> new SoundEvent(new ResourceLocation(CrystalArchitect.MOD_ID, "entity.cinderling.ambient")));
 
     //biomes
     public static final RegistryObject<Biome> CINDERBANE = BIOMES.register("cinderbane_biome",

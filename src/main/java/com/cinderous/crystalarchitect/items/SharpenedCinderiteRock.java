@@ -21,6 +21,7 @@ public class SharpenedCinderiteRock extends Item {
     }
 
 
+
 //throw rock later...
 //    @Override
 //    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
