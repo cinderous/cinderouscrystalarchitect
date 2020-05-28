@@ -20,16 +20,16 @@ import net.minecraft.world.gen.placement.Placement;
 public class CinderbaneBiome extends Biome {
 
     public static final BlockClusterFeatureConfig CINDERITE_ROCK_CONFIG = (new BlockClusterFeatureConfig.Builder(
-            new SimpleBlockStateProvider(RegistryHandler.CINDERITE_ROCK.get().getDefaultState()), new SimpleBlockPlacer())).tries(64).build();
+            new SimpleBlockStateProvider(RegistryHandler.CINDERITE_ROCK.get().getDefaultState()), new SimpleBlockPlacer())).tries(5).build();
   //  public static final BlockClusterFeatureConfig SNOWDONIA_FLOWER_CONFIG = (new BlockClusterFeatureConfig.Builder(new SnowdoniaFlowerBlockStateProvider(), new SimpleBlockPlacer())).tries(64).build();
 
     public CinderbaneBiome(Builder biomeBuilder) {
         super(biomeBuilder);
 
 
-
-        addSpawn(EntityClassification.CREATURE, new SpawnListEntry(RegistryHandler.CINDERLING.get(), 200,5,10));
-        addCarver(GenerationStage.Carving.AIR, Biome.createCarver(WorldCarver.HELL_CAVE, new ProbabilityConfig(0.04f)));
+        //broke
+        addSpawn(EntityClassification.CREATURE, new SpawnListEntry(RegistryHandler.CINDERLING.get(), 10,5,10));
+        addCarver(GenerationStage.Carving.AIR, Biome.createCarver(WorldCarver.HELL_CAVE, new ProbabilityConfig(0.07f)));
         //addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Feature.FOSSIL.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.CHANCE_PASSTHROUGH.configure(new ChanceConfig(128))));
 
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION,

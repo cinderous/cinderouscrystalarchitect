@@ -1,8 +1,10 @@
 package com.cinderous.crystalarchitect;
 
+import com.cinderous.crystalarchitect.entities.Cinderling;
 import com.cinderous.crystalarchitect.util.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.Biome;
@@ -46,9 +48,20 @@ public class CrystalArchitect
 
     private void setup(final FMLCommonSetupEvent event)
     {
-        // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+        Cinderling.registerPlacementTypes();
+        registerEntityWorldSpawn(RegistryHandler.CINDERLING.get(), 15, 1, 6,
+                RegistryHandler.CINDERBANE.get());
+        LOGGER.info("FML common completed???");
+    }
+
+    private void registerEntityWorldSpawn(EntityType<?> entity, int weight, int minGroupIn, int maxGroupIn, Biome... biomes) {
+        for(Biome biome : biomes) {
+            if(biome !=null) {
+                biome.getSpawns(entity.getClassification()).add(new Biome.SpawnListEntry(entity, weight, minGroupIn, maxGroupIn));
+                LOGGER.info("Did this work DAMN");
+            }
+
+        }
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -68,5 +81,6 @@ public class CrystalArchitect
     public static void onRegisterBiomes(final RegistryEvent.Register<Biome> event) {
         RegistryHandler.registerBiomes();
     }
+
 
 }

@@ -42,20 +42,30 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class RegistryHandler {
 
     //public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = new DeferredRegister<>(ForgeRegistries.PARTICLE_TYPES, CrystalArchitect.MOD_ID);
+
+    public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, CrystalArchitect.MOD_ID);
-    public static final DeferredRegister<Biome> BIOMES = new DeferredRegister<>(ForgeRegistries.BIOMES, CrystalArchitect.MOD_ID);
+
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.ENTITIES, CrystalArchitect.MOD_ID);
-    public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, CrystalArchitect.MOD_ID);
+
+
+    public static final DeferredRegister<Biome> BIOMES = new DeferredRegister<>(ForgeRegistries.BIOMES, CrystalArchitect.MOD_ID);
 
 
     public static void init() {
        // PARTICLE_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        BIOMES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+
+        //tile entities
+        //containers
         ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+
+        BIOMES.register(FMLJavaModLoadingContext.get().getModEventBus());
+
+
 
 
     }

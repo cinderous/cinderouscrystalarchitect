@@ -12,6 +12,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -22,6 +23,14 @@ public class Cinderling extends AnimalEntity {
 
     public Cinderling(EntityType<? extends AnimalEntity> type, World worldIn) {
         super(type, worldIn);
+    }
+
+    public static void registerPlacementType(EntityType type, EntitySpawnPlacementRegistry.PlacementType spawnType) {
+        EntitySpawnPlacementRegistry.register(type, spawnType, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AnimalEntity::canAnimalSpawn);
+    }
+
+    public static void registerPlacementTypes() {
+         registerPlacementType(RegistryHandler.CINDERLING.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND);
     }
 
     @Override
