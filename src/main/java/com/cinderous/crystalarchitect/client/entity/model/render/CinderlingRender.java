@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 public class CinderlingRender extends MobRenderer<Cinderling, CinderlingModel<Cinderling>> {
 
     protected static final ResourceLocation TEXTURE = new ResourceLocation(CrystalArchitect.MOD_ID,
-            "textures/entity/example_entity.png");
+            "textures/entity/cinderling.png");
 
     public CinderlingRender(EntityRendererManager renderManagerIn) {
         super(renderManagerIn, new CinderlingModel<Cinderling>(), 0.5f);

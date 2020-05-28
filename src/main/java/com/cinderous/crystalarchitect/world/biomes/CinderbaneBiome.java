@@ -28,7 +28,7 @@ public class CinderbaneBiome extends Biome {
 
 
 
-        //addSpawn(EntityClassification.CREATURE, new SpawnListEntry(RegistryHandler.CINDERLING, 40,5,10));
+        addSpawn(EntityClassification.CREATURE, new SpawnListEntry(RegistryHandler.CINDERLING.get(), 200,5,10));
         addCarver(GenerationStage.Carving.AIR, Biome.createCarver(WorldCarver.HELL_CAVE, new ProbabilityConfig(0.04f)));
         //addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Feature.FOSSIL.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.CHANCE_PASSTHROUGH.configure(new ChanceConfig(128))));
 
