@@ -1,6 +1,8 @@
 package com.cinderous.crystalarchitect.tileentities;
 
+import com.cinderous.crystalarchitect.blocks.ExperimentBox;
 import com.cinderous.crystalarchitect.blocks.MultiboxChest;
+import com.cinderous.crystalarchitect.containers.ExperimentBoxContainer;
 import com.cinderous.crystalarchitect.containers.MultiboxChestContainer;
 import com.cinderous.crystalarchitect.util.RegistryHandler;
 import net.minecraft.block.Block;
@@ -22,7 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -30,9 +31,8 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
-public class MultiboxChestTileEntity extends LockableLootTileEntity {
+public class ExperimentBoxTileEntity extends LockableLootTileEntity {
 
     private int capacity = 1;
 
@@ -42,14 +42,14 @@ public class MultiboxChestTileEntity extends LockableLootTileEntity {
     private LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> items);
 
 
-    public MultiboxChestTileEntity(TileEntityType<?> typeIn) {
+    public ExperimentBoxTileEntity(TileEntityType<?> typeIn) {
         super(typeIn);
     }
 
 
 
-    public MultiboxChestTileEntity() {
-        this(RegistryHandler.MULTIBOX_CHEST_TILE_ENTITY.get());
+    public ExperimentBoxTileEntity() {
+        this(RegistryHandler.EXPERIMENT_BOX_TILE_ENTITY.get());
     }
 
     @Override
@@ -85,12 +85,12 @@ public class MultiboxChestTileEntity extends LockableLootTileEntity {
 
     @Override
     protected ITextComponent getDefaultName() {
-        return new TranslationTextComponent("container.multibox_chest");
+        return new TranslationTextComponent("container.example_chest");
     }
 
     @Override
     protected Container createMenu(int id, PlayerInventory player) {
-        return new MultiboxChestContainer(id, player, this);
+        return new ExperimentBoxContainer(id, player, this);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class MultiboxChestTileEntity extends LockableLootTileEntity {
 
     protected void onOpenOrClose() {
         Block block = this.getBlockState().getBlock();
-        if (block instanceof MultiboxChest) {
+        if (block instanceof ExperimentBox) {
             this.world.addBlockEvent(this.pos, block, 1, this.numPlayersUsing);
             this.world.notifyNeighborsOfStateChange(this.pos, block);
         }
@@ -161,14 +161,14 @@ public class MultiboxChestTileEntity extends LockableLootTileEntity {
         BlockState blockstate = reader.getBlockState(pos);
         if (blockstate.hasTileEntity()) {
             TileEntity tileentity = reader.getTileEntity(pos);
-            if (tileentity instanceof MultiboxChestTileEntity) {
-                return ((MultiboxChestTileEntity) tileentity).numPlayersUsing;
+            if (tileentity instanceof ExperimentBoxTileEntity) {
+                return ((ExperimentBoxTileEntity) tileentity).numPlayersUsing;
             }
         }
         return 0;
     }
 
-    public static void swapContents(MultiboxChestTileEntity te, MultiboxChestTileEntity otherTe) {
+    public static void swapContents(ExperimentBoxTileEntity te, ExperimentBoxTileEntity otherTe) {
         NonNullList<ItemStack> list = te.getItems();
         te.setItems(otherTe.getItems());
         otherTe.setItems(list);

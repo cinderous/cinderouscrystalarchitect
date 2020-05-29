@@ -2,6 +2,7 @@ package com.cinderous.crystalarchitect.util;
 
 import com.cinderous.crystalarchitect.CrystalArchitect;
 import com.cinderous.crystalarchitect.client.entity.model.render.CinderlingRender;
+import com.cinderous.crystalarchitect.client.gui.ExperimentBoxScreen;
 import com.cinderous.crystalarchitect.client.gui.MultiboxChestScreen;
 import com.cinderous.crystalarchitect.entities.Cinderling;
 import net.minecraft.client.gui.ScreenManager;
@@ -20,7 +21,10 @@ public class ClientEventBusSubscriber {
     public static void clientSetup(FMLClientSetupEvent event) {
 
         RenderTypeLookup.setRenderLayer(RegistryHandler.CINDERWOOD_SAPLING.get(), RenderType.getCutout());
+
+        ScreenManager.registerFactory(RegistryHandler.EXPERIMENT_BOX_CONTAINER.get(), ExperimentBoxScreen::new);
         ScreenManager.registerFactory(RegistryHandler.MULTIBOX_CHEST_CONTAINER.get(), MultiboxChestScreen::new);
+
         RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.CINDERLING.get(), CinderlingRender::new);
     }
 }

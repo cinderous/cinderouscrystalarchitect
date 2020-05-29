@@ -2,11 +2,13 @@ package com.cinderous.crystalarchitect.util;
 
 import com.cinderous.crystalarchitect.CrystalArchitect;
 import com.cinderous.crystalarchitect.blocks.*;
+import com.cinderous.crystalarchitect.containers.ExperimentBoxContainer;
 import com.cinderous.crystalarchitect.containers.MultiboxChestContainer;
 import com.cinderous.crystalarchitect.entities.Cinderling;
 import com.cinderous.crystalarchitect.items.CinderiteDust;
 import com.cinderous.crystalarchitect.items.ItemBase;
 //import com.cinderous.crystalarchitect.particles.ColouredParticle;
+import com.cinderous.crystalarchitect.tileentities.ExperimentBoxTileEntity;
 import com.cinderous.crystalarchitect.tileentities.MultiboxChestTileEntity;
 import com.cinderous.crystalarchitect.util.enums.ModItemTiers;
 import com.cinderous.crystalarchitect.world.biomes.CinderbaneBiome;
@@ -123,8 +125,12 @@ public class RegistryHandler {
             () -> new CinderwoodSapling(() -> new CinderwoodTree(), Block.Properties.from(Blocks.OAK_SAPLING)));
 
 
-    public static final RegistryObject<Block> EXPERIMENT_BOX = BLOCKS.register("experiment_box", ExperimentBox::new);
+
+
+
     public static final RegistryObject<Block> MULTIBOX_CHEST = BLOCKS.register("multibox_chest", MultiboxChest::new);
+
+    public static final RegistryObject<Block> EXPERIMENT_BOX = BLOCKS.register("experiment_box", ExperimentBox::new);
 
 
     //block items
@@ -152,13 +158,26 @@ public class RegistryHandler {
 
 
     //tile entities
+
+    public static final RegistryObject<TileEntityType<ExperimentBoxTileEntity>> EXPERIMENT_BOX_TILE_ENTITY = TILE_ENTITY_TYPES
+            .register("experiment_box", () -> TileEntityType.Builder
+                    .create(ExperimentBoxTileEntity::new, RegistryHandler.EXPERIMENT_BOX.get()).build(null));
+
     public static final RegistryObject<TileEntityType<MultiboxChestTileEntity>> MULTIBOX_CHEST_TILE_ENTITY = TILE_ENTITY_TYPES
             .register("multiblock_chest", () -> TileEntityType.Builder
                     .create(MultiboxChestTileEntity::new, RegistryHandler.MULTIBOX_CHEST.get()).build(null));
 
+
+
     //containers
+
+    public static final RegistryObject<ContainerType<ExperimentBoxContainer>> EXPERIMENT_BOX_CONTAINER = CONTAINER_TYPE_DEFERRED_REGISTER
+            .register("experiment_box_container", () -> IForgeContainerType.create(ExperimentBoxContainer::new));
+
     public static final RegistryObject<ContainerType<MultiboxChestContainer>> MULTIBOX_CHEST_CONTAINER = CONTAINER_TYPE_DEFERRED_REGISTER
             .register("multibox_chest_container", () -> IForgeContainerType.create(MultiboxChestContainer::new));
+
+
 
     //sounds
     public static final RegistryObject<SoundEvent> AMBIENT = SOUNDS.register("entity.cinderling.ambient",
