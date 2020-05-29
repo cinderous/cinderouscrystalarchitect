@@ -1,5 +1,8 @@
 {
   "variants": {
-    "": { "model": "crystalarchitect:block/experiment_box" }
+    "facing=north": { "model": "crystalarchitect:block/experiment_box" },
+    "facing=south": { "model": "crystalarchitect:block/experiment_box", "y": 180 },
+    "facing=west":  { "model": "crystalarchitect:block/experiment_box", "y": 270 },
+    "facing=east":  { "model": "crystalarchitect:block/experiment_box", "y": 90 }
   }
 }
