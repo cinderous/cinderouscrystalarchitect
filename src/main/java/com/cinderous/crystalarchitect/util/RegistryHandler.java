@@ -17,10 +17,8 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.*;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -33,6 +31,7 @@ import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -75,11 +74,18 @@ public class RegistryHandler {
     //Items
     public static final RegistryObject<Item> CINDERIUM_INGOT = ITEMS.register("cinderium_ingot", ItemBase::new);
     public static final RegistryObject<Item> CINDERITE_DUST = ITEMS.register("cinderite_dust", CinderiteDust::new);
+    public static final RegistryObject<Item> CINDERFLUX = ITEMS.register("cinderflux", ItemBase::new);
+
 
     //Tool Items
     public static final RegistryObject<AxeItem> SHARPENED_CINDERITE_ROCK = ITEMS.register("sharpened_cinderite_rock",
             () -> new AxeItem( ModItemTiers.SHARPENED_CINDERITE_ROCK_CONFIG, 6.0F, -3.2f, new Item.Properties().group(CrystalArchitect.TAB)));
 
+    public static final RegistryObject<BucketItem> CINDERLING_SHELL = ITEMS.register("cinderling_shell",
+            () -> new BucketItem(Fluids.EMPTY, new Item.Properties().group(CrystalArchitect.TAB)));
+
+    public static final RegistryObject<BucketItem> CINDERLING_SHELL_WATER = ITEMS.register("cinderling_shell_water",
+            () -> new BucketItem(Fluids.WATER, new Item.Properties().group(CrystalArchitect.TAB)));
     //blocks
     public static final RegistryObject<Block> CINDERIUM_BLOCK = BLOCKS.register("cinderium_block", CinderiumBlock::new);
     public static final RegistryObject<Block> CINDERITE_STONE = BLOCKS.register("cinderite_stone", CinderiteStone::new);
@@ -110,6 +116,9 @@ public class RegistryHandler {
             () -> new CinderwoodSapling(() -> new CinderwoodTree(), Block.Properties.from(Blocks.OAK_SAPLING)));
 
 
+    public static final RegistryObject<Block> EXPERIMENT_BOX = BLOCKS.register("experiment_box", ExperimentBox::new);
+
+
     //block items
     public static final RegistryObject<Item> CINDERIUM_BLOCK_ITEM = ITEMS.register("cinderium_block", () -> new BlockItemBase(CINDERIUM_BLOCK.get()));
     public static final RegistryObject<Item> CINDERITE_STONE_ITEM = ITEMS.register("cinderite_stone", () -> new BlockItemBase(CINDERITE_STONE.get()));
@@ -122,13 +131,14 @@ public class RegistryHandler {
     public static final RegistryObject<Item> CINDERWOOD_LOG_ITEM = ITEMS.register("cinderwood_log", () -> new BlockItemBase(CINDERWOOD_LOG.get()));
     public static final RegistryObject<Item> CINDERWOOD_LEAVES_ITEM = ITEMS.register("cinderwood_leaves", () -> new BlockItemBase(CINDERWOOD_LEAVES.get()));
     public static final RegistryObject<Item> CINDERWOOD_SAPLING_ITEM = ITEMS.register("cinderwood_sapling", () -> new BlockItemBase(CINDERWOOD_SAPLING.get()));
+    public static final RegistryObject<Item> EXPERIMENT_BOX_ITEM = ITEMS.register("experiment_box", () -> new BlockItemBase(EXPERIMENT_BOX.get()));
 
     //entities
     public static final RegistryObject<EntityType<Cinderling>> CINDERLING = ENTITY_TYPES
             .register("cinderling",
                     () -> EntityType.Builder.<Cinderling>create(Cinderling::new, EntityClassification.CREATURE)
                             .size(0.9f, 1.3f)
-                            .build(new ResourceLocation(CrystalArchitect.MOD_ID, "example_entity").toString()));
+                            .build(new ResourceLocation(CrystalArchitect.MOD_ID, "cinderling").toString()));
 
 
     //sounds
