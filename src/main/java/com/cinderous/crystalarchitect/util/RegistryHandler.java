@@ -2,10 +2,12 @@ package com.cinderous.crystalarchitect.util;
 
 import com.cinderous.crystalarchitect.CrystalArchitect;
 import com.cinderous.crystalarchitect.blocks.*;
+import com.cinderous.crystalarchitect.containers.MultiboxChestContainer;
 import com.cinderous.crystalarchitect.entities.Cinderling;
 import com.cinderous.crystalarchitect.items.CinderiteDust;
 import com.cinderous.crystalarchitect.items.ItemBase;
 //import com.cinderous.crystalarchitect.particles.ColouredParticle;
+import com.cinderous.crystalarchitect.tileentities.MultiboxChestTileEntity;
 import com.cinderous.crystalarchitect.util.enums.ModItemTiers;
 import com.cinderous.crystalarchitect.world.biomes.CinderbaneBiome;
 import com.cinderous.crystalarchitect.world.feature.CinderwoodTree;
@@ -18,8 +20,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
 import net.minecraft.particles.ParticleType;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
@@ -29,6 +33,7 @@ import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidAttributes;
@@ -40,17 +45,19 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class RegistryHandler {
 
-    //region DEFERREDREGISTRIES
     //public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = new DeferredRegister<>(ForgeRegistries.PARTICLE_TYPES, CrystalArchitect.MOD_ID);
+
     public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, CrystalArchitect.MOD_ID);
-
+    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.ENTITIES, CrystalArchitect.MOD_ID);
+    public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPE_DEFERRED_REGISTER = new DeferredRegister<>(ForgeRegistries.CONTAINERS, CrystalArchitect.MOD_ID);
+    //public static final DeferredRegister<Gui<?>> GUI = new DeferredRegister<>(ForgeRegistries.CONTAINERS, CrystalArchitect.MOD_ID);
 
 
     public static final DeferredRegister<Biome> BIOMES = new DeferredRegister<>(ForgeRegistries.BIOMES, CrystalArchitect.MOD_ID);
-    //endregion
+
 
 
     public static void init() {
@@ -58,10 +65,9 @@ public class RegistryHandler {
         SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-
-        //tile entities
-        //containers
+        TILE_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        CONTAINER_TYPE_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         BIOMES.register(FMLJavaModLoadingContext.get().getModEventBus());
 
@@ -118,6 +124,7 @@ public class RegistryHandler {
 
 
     public static final RegistryObject<Block> EXPERIMENT_BOX = BLOCKS.register("experiment_box", ExperimentBox::new);
+    public static final RegistryObject<Block> MULTIBOX_CHEST = BLOCKS.register("multibox_chest", MultiboxChest::new);
 
 
     //block items
@@ -133,6 +140,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> CINDERWOOD_LEAVES_ITEM = ITEMS.register("cinderwood_leaves", () -> new BlockItemBase(CINDERWOOD_LEAVES.get()));
     public static final RegistryObject<Item> CINDERWOOD_SAPLING_ITEM = ITEMS.register("cinderwood_sapling", () -> new BlockItemBase(CINDERWOOD_SAPLING.get()));
     public static final RegistryObject<Item> EXPERIMENT_BOX_ITEM = ITEMS.register("experiment_box", () -> new BlockItemBase(EXPERIMENT_BOX.get()));
+    public static final RegistryObject<Item> MULTIBOX_CHEST_ITEM = ITEMS.register("multibox_chest", () -> new BlockItemBase(MULTIBOX_CHEST.get()));
 
     //entities
     public static final RegistryObject<EntityType<Cinderling>> CINDERLING = ENTITY_TYPES
@@ -141,6 +149,16 @@ public class RegistryHandler {
                             .size(0.9f, 1.3f)
                             .build(new ResourceLocation(CrystalArchitect.MOD_ID, "cinderling").toString()));
 
+
+
+    //tile entities
+    public static final RegistryObject<TileEntityType<MultiboxChestTileEntity>> MULTIBOX_CHEST_TILE_ENTITY = TILE_ENTITY_TYPES
+            .register("multiblock_chest", () -> TileEntityType.Builder
+                    .create(MultiboxChestTileEntity::new, RegistryHandler.MULTIBOX_CHEST.get()).build(null));
+
+    //containers
+    public static final RegistryObject<ContainerType<MultiboxChestContainer>> MULTIBOX_CHEST_CONTAINER = CONTAINER_TYPE_DEFERRED_REGISTER
+            .register("multibox_chest_container", () -> IForgeContainerType.create(MultiboxChestContainer::new));
 
     //sounds
     public static final RegistryObject<SoundEvent> AMBIENT = SOUNDS.register("entity.cinderling.ambient",
