@@ -22,6 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -29,17 +30,23 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class MultiboxChestTileEntity extends LockableLootTileEntity {
+
+    private int capacity = 1;
 
     private NonNullList<ItemStack> chestContents = NonNullList.withSize(36, ItemStack.EMPTY);
     protected int numPlayersUsing;
     private IItemHandlerModifiable items = createHandler();
     private LazyOptional<IItemHandlerModifiable> itemHandler = LazyOptional.of(() -> items);
 
+
     public MultiboxChestTileEntity(TileEntityType<?> typeIn) {
         super(typeIn);
     }
+
+
 
     public MultiboxChestTileEntity() {
         this(RegistryHandler.MULTIBOX_CHEST_TILE_ENTITY.get());
@@ -47,7 +54,23 @@ public class MultiboxChestTileEntity extends LockableLootTileEntity {
 
     @Override
     public int getSizeInventory() {
-        return 36;
+        return 64 ;//+ getCapacity();
+    }
+
+//    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+//        //if (!worldIn.isAreaLoaded(pos, 1)) return; // Forge: prevent growing cactus from loading unloaded chunks with block update
+//            BlockPos blockpos = pos.up();
+//            if (worldIn.getBlockState(blockpos) == RegistryHandler.MULTIBOX_CHEST.get().getDefaultState()) {
+//                //getCapacity();
+//            } else {
+//                return;
+//        }
+//
+//    }
+
+    public int getCapacity() {
+        capacity = 2;
+        return capacity;
     }
 
     @Override
