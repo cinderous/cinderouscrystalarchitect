@@ -13,14 +13,14 @@ import com.cinderous.crystalarchitect.tileentities.MultiboxChestTileEntity;
 import com.cinderous.crystalarchitect.util.enums.ModItemTiers;
 import com.cinderous.crystalarchitect.world.biomes.CinderbaneBiome;
 import com.cinderous.crystalarchitect.world.feature.CinderwoodTree;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.LogBlock;
+import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.fluid.FlowingFluid;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
@@ -28,6 +28,7 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
@@ -39,6 +40,7 @@ import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -47,10 +49,19 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class RegistryHandler {
 
+
+    public static final ResourceLocation COBBLESTONE_SOLUTION_STILL_RL = new ResourceLocation(CrystalArchitect.MOD_ID,
+            "blocks/cobblestone_solution_still");
+    public static final ResourceLocation COBBLESTONE_SOLUTION_FLOWING_RL = new ResourceLocation(CrystalArchitect.MOD_ID,
+            "blocks/cobblestone_solution_flow");
+    public static final ResourceLocation COBBLESTONE_SOLUTION_OVERLAY_RL = new ResourceLocation(CrystalArchitect.MOD_ID,
+            "blocks/cobblestone_solution_overlay");
+
     //public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = new DeferredRegister<>(ForgeRegistries.PARTICLE_TYPES, CrystalArchitect.MOD_ID);
 
     public static final DeferredRegister<SoundEvent> SOUNDS = new DeferredRegister<>(ForgeRegistries.SOUND_EVENTS, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, CrystalArchitect.MOD_ID);
+    public static final DeferredRegister<Fluid> FLUIDS = new DeferredRegister<>(ForgeRegistries.FLUIDS, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.ENTITIES, CrystalArchitect.MOD_ID);
@@ -66,6 +77,7 @@ public class RegistryHandler {
        // PARTICLE_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
         SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
         TILE_ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
         ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -95,6 +107,29 @@ public class RegistryHandler {
 
     public static final RegistryObject<BucketItem> CINDERLING_SHELL_WATER = ITEMS.register("cinderling_shell_water",
             () -> new BucketItem(Fluids.WATER, new Item.Properties().group(CrystalArchitect.TAB)));
+
+    public static final RegistryObject<BucketItem> CINDERLING_SHELL_COBBLESTONE_SOLUTION = ITEMS.register("cinderling_shell_cobblestone_solution",
+            () -> new BucketItem(RegistryHandler.COBBLESTONE_SOLUTION_FLUID, new Item.Properties().group(CrystalArchitect.TAB)));
+
+    //fluids
+    public static final RegistryObject<FlowingFluid> COBBLESTONE_SOLUTION_FLUID = FLUIDS.register("cobblestone_solution_fluid",
+            () -> new ForgeFlowingFluid.Source(RegistryHandler.COBBLESTONE_SOLUTION_PROPERTIES));
+
+    public static final RegistryObject<FlowingFluid> COBBLESTONE_SOLUTION_FLOWING = FLUIDS.register("cobblestone_solution_flowing",
+            () -> new ForgeFlowingFluid.Flowing(RegistryHandler.COBBLESTONE_SOLUTION_PROPERTIES));
+
+    public static final ForgeFlowingFluid.Properties COBBLESTONE_SOLUTION_PROPERTIES = new ForgeFlowingFluid.Properties(
+            () -> COBBLESTONE_SOLUTION_FLUID.get(), () -> COBBLESTONE_SOLUTION_FLOWING.get(),
+            FluidAttributes.builder(COBBLESTONE_SOLUTION_STILL_RL, COBBLESTONE_SOLUTION_FLOWING_RL).density(5).luminosity(10).rarity(Rarity.RARE).color(13158600)
+                    .sound(SoundEvents.ITEM_HONEY_BOTTLE_DRINK).overlay(COBBLESTONE_SOLUTION_OVERLAY_RL))
+            .block(() -> RegistryHandler.COBBLESTONE_SOLUTION_BLOCK.get());
+
+    public static final RegistryObject<FlowingFluidBlock> COBBLESTONE_SOLUTION_BLOCK = RegistryHandler.BLOCKS.register("milk",
+            () -> new FlowingFluidBlock(() -> RegistryHandler.COBBLESTONE_SOLUTION_FLUID.get(), Block.Properties.create(Material.WATER)
+                    .doesNotBlockMovement().hardnessAndResistance(100.0f).noDrops()));
+
+
+
     //blocks
     public static final RegistryObject<Block> CINDERIUM_BLOCK = BLOCKS.register("cinderium_block", CinderiumBlock::new);
     public static final RegistryObject<Block> CINDERITE_STONE = BLOCKS.register("cinderite_stone", CinderiteStone::new);
