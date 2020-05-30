@@ -30,12 +30,17 @@ public class ExperimentBoxContainer extends Container {
         int startX = 8;
         int startY = 18;
         int slotSizePlus2 = 18;
-        for (int row = 0; row < 4; ++row) {
-            for (int column = 0; column < 9; ++column) {
-                this.addSlot(new Slot(tileEntity, (row * 9) + column, startX + (column * slotSizePlus2),
-                        startY + (row * slotSizePlus2)));
-            }
-        }
+//        for (int row = 0; row < 4; ++row) {
+//            for (int column = 0; column < 9; ++column) {
+//                this.addSlot(new Slot(tileEntity, (row * 9) + column, startX + (column * slotSizePlus2),
+//                        startY + (row * slotSizePlus2)));
+//            }
+//        }
+
+        this.addSlot(new Slot(tileEntity, 1, 51,7));
+        this.addSlot(new Slot(tileEntity, 2, 145,7));
+        this.addSlot(new Slot(tileEntity, 3, 141,66));
+
 
         // Main Player Inventory
         int startPlayerInvY = startY * 5 + 12;
@@ -73,6 +78,7 @@ public class ExperimentBoxContainer extends Container {
         return isWithinUsableDistance(canInteractWithCallable, playerIn, RegistryHandler.EXPERIMENT_BOX.get());
     }
 
+
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
@@ -96,4 +102,11 @@ public class ExperimentBoxContainer extends Container {
         }
         return itemstack;
     }
+
+//    @Override
+//    public boolean canDragIntoSlot(Slot slotIn) {
+//        if ( slotIn.getSlotIndex() == 3 )
+//            return false;
+//        return super.canDragIntoSlot(slotIn);
+//    }
 }

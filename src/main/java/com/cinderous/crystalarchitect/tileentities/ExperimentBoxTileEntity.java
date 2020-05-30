@@ -36,6 +36,9 @@ public class ExperimentBoxTileEntity extends LockableLootTileEntity {
 
     private int capacity = 1;
 
+//    private SidedInventoryComponent<ExperimentBoxContainer> fuel;
+
+
     private NonNullList<ItemStack> chestContents = NonNullList.withSize(36, ItemStack.EMPTY);
     protected int numPlayersUsing;
     private IItemHandlerModifiable items = createHandler();
@@ -54,7 +57,7 @@ public class ExperimentBoxTileEntity extends LockableLootTileEntity {
 
     @Override
     public int getSizeInventory() {
-        return 64 ;//+ getCapacity();
+        return 3 ;//+ getCapacity();
     }
 
 //    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
@@ -83,9 +86,10 @@ public class ExperimentBoxTileEntity extends LockableLootTileEntity {
         this.chestContents = itemsIn;
     }
 
+    //default text for the
     @Override
     protected ITextComponent getDefaultName() {
-        return new TranslationTextComponent("container.example_chest");
+        return new TranslationTextComponent("");
     }
 
     @Override
