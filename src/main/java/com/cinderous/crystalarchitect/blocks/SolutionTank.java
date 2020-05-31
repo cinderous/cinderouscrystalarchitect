@@ -1,5 +1,6 @@
 package com.cinderous.crystalarchitect.blocks;
 
+import com.cinderous.crystalarchitect.fluid.BasicTank;
 import com.cinderous.crystalarchitect.tileentities.ExperimentBoxTileEntity;
 import com.cinderous.crystalarchitect.tileentities.MultiboxChestTileEntity;
 import com.cinderous.crystalarchitect.util.RegistryHandler;
@@ -24,12 +25,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class ExperimentBox extends Block {
+public class SolutionTank extends Block {
 
 
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
-    public ExperimentBox() {
+    public SolutionTank() {
         super(Block.Properties.create(Material.WOOD)
                 .hardnessAndResistance(5.0f,6.0f)
                 .sound(SoundType.GROUND)
@@ -52,55 +53,55 @@ public class ExperimentBox extends Block {
 
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 
-        return RegistryHandler.EXPERIMENT_BOX_TILE_ENTITY.get().create();
+        return RegistryHandler.SOLUTION_TANK_TILE_ENTITY.get().create();
 
     }
 
 
 
-    @Override
+//    @Override
+//
+//    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
+//
+//                                             Hand handIn, BlockRayTraceResult result) {
+//
+//        if (!worldIn.isRemote) {
+//
+//            TileEntity tile = worldIn.getTileEntity(pos);
+//
+//            if (tile instanceof ExperimentBoxTileEntity) {
+//
+//                NetworkHooks.openGui((ServerPlayerEntity) player, (ExperimentBoxTileEntity) tile, pos);
+//
+//                return ActionResultType.SUCCESS;
+//
+//            }
+//
+//        }
+//
+//        return ActionResultType.FAIL;
+//
+//    }
 
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
-
-                                             Hand handIn, BlockRayTraceResult result) {
-
-        if (!worldIn.isRemote) {
-
-            TileEntity tile = worldIn.getTileEntity(pos);
-
-            if (tile instanceof ExperimentBoxTileEntity) {
-
-                NetworkHooks.openGui((ServerPlayerEntity) player, (ExperimentBoxTileEntity) tile, pos);
-
-                return ActionResultType.SUCCESS;
-
-            }
-
-        }
-
-        return ActionResultType.FAIL;
-
-    }
 
 
-
-    @Override
-
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-
-        if (state.getBlock() != newState.getBlock()) {
-
-            TileEntity te = worldIn.getTileEntity(pos);
-
-            if (te instanceof MultiboxChestTileEntity) {
-
-                InventoryHelper.dropItems(worldIn, pos, ((MultiboxChestTileEntity) te).getItems());
-
-            }
-
-        }
-
-    }
+//    @Override
+//
+//    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+//
+//        if (state.getBlock() != newState.getBlock()) {
+//
+//            TileEntity te = worldIn.getTileEntity(pos);
+//
+//            if (te instanceof MultiboxChestTileEntity) {
+//
+//                InventoryHelper.dropItems(worldIn, pos, ((MultiboxChestTileEntity) te).getItems());
+//
+//            }
+//
+//        }
+//
+//    }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {

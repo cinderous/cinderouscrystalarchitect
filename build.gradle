@@ -170,6 +170,9 @@ dependencies {
 //	Industrial Foregoing
 
   //  compileOnly "industrial-foregoing:industrialforegoing-1.12.2:2-2.3.2-e3bf186:235"
+
+    // Dependency on local binaries
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 	
 }
 

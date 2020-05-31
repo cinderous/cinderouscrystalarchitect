@@ -13,6 +13,7 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -47,7 +48,8 @@ public class ExperimentBoxTileEntity extends LockableLootTileEntity {
 
     public ExperimentBoxTileEntity(TileEntityType<?> typeIn) {
         super(typeIn);
-    }
+
+ }
 
 
 

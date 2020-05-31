@@ -7,6 +7,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -30,8 +31,9 @@ import java.util.stream.Collectors;
 public class CrystalArchitect
 {
     // Directly reference a log4j logger.
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "crystalarchitect";
+    public static final ResourceLocation CINDERBANE_DIM_TYPE = new ResourceLocation(MOD_ID, "cinderbane");
 
     public CrystalArchitect() {
         // Register the setup method for modloading

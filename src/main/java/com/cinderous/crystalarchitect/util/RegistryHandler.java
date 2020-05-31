@@ -5,14 +5,19 @@ import com.cinderous.crystalarchitect.blocks.*;
 import com.cinderous.crystalarchitect.containers.ExperimentBoxContainer;
 import com.cinderous.crystalarchitect.containers.MultiboxChestContainer;
 import com.cinderous.crystalarchitect.entities.Cinderling;
+import com.cinderous.crystalarchitect.fluid.BasicTank;
+import com.cinderous.crystalarchitect.items.CinderbanePoisonPotion;
 import com.cinderous.crystalarchitect.items.CinderiteDust;
 import com.cinderous.crystalarchitect.items.ItemBase;
 //import com.cinderous.crystalarchitect.particles.ColouredParticle;
 import com.cinderous.crystalarchitect.tileentities.ExperimentBoxTileEntity;
 import com.cinderous.crystalarchitect.tileentities.MultiboxChestTileEntity;
+import com.cinderous.crystalarchitect.tileentities.SolutionTankTileEntity;
 import com.cinderous.crystalarchitect.util.enums.ModItemTiers;
 import com.cinderous.crystalarchitect.world.biomes.CinderbaneBiome;
+import com.cinderous.crystalarchitect.world.dimensions.CinderbaneModDimension;
 import com.cinderous.crystalarchitect.world.feature.CinderwoodTree;
+import jdk.nashorn.internal.runtime.logging.DebugLogger;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -35,6 +40,7 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
+import net.minecraftforge.common.ModDimension;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
@@ -66,11 +72,12 @@ public class RegistryHandler {
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.ENTITIES, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPE_DEFERRED_REGISTER = new DeferredRegister<>(ForgeRegistries.CONTAINERS, CrystalArchitect.MOD_ID);
+
     //public static final DeferredRegister<Gui<?>> GUI = new DeferredRegister<>(ForgeRegistries.CONTAINERS, CrystalArchitect.MOD_ID);
 
 
     public static final DeferredRegister<Biome> BIOMES = new DeferredRegister<>(ForgeRegistries.BIOMES, CrystalArchitect.MOD_ID);
-
+    //
 
 
     public static void init() {
@@ -83,7 +90,9 @@ public class RegistryHandler {
         ENTITY_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
         CONTAINER_TYPE_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
 
+
         BIOMES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        MOD_DIMENSIONS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
 
 
@@ -96,6 +105,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> CINDERIUM_INGOT = ITEMS.register("cinderium_ingot", ItemBase::new);
     public static final RegistryObject<Item> CINDERITE_DUST = ITEMS.register("cinderite_dust", CinderiteDust::new);
     public static final RegistryObject<Item> CINDERFLUX = ITEMS.register("cinderflux", ItemBase::new);
+    public static final RegistryObject<Item> CINDERBANE_POISON_POTION = ITEMS.register("cinderbane_poison_potion", CinderbanePoisonPotion::new);
 
 
     //Tool Items
@@ -160,12 +170,11 @@ public class RegistryHandler {
             () -> new CinderwoodSapling(() -> new CinderwoodTree(), Block.Properties.from(Blocks.OAK_SAPLING)));
 
 
-
-
-
     public static final RegistryObject<Block> MULTIBOX_CHEST = BLOCKS.register("multibox_chest", MultiboxChest::new);
 
     public static final RegistryObject<Block> EXPERIMENT_BOX = BLOCKS.register("experiment_box", ExperimentBox::new);
+
+    public static final RegistryObject<Block> SOLUTION_TANK = BLOCKS.register("solution_tank", SolutionTank::new);
 
 
     //block items
@@ -182,6 +191,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> CINDERWOOD_SAPLING_ITEM = ITEMS.register("cinderwood_sapling", () -> new BlockItemBase(CINDERWOOD_SAPLING.get()));
     public static final RegistryObject<Item> EXPERIMENT_BOX_ITEM = ITEMS.register("experiment_box", () -> new BlockItemBase(EXPERIMENT_BOX.get()));
     public static final RegistryObject<Item> MULTIBOX_CHEST_ITEM = ITEMS.register("multibox_chest", () -> new BlockItemBase(MULTIBOX_CHEST.get()));
+    public static final RegistryObject<Item> SOLUTION_TANK_ITEM = ITEMS.register("solution_tank", () -> new BlockItemBase(SOLUTION_TANK.get()));
 
     //entities
     public static final RegistryObject<EntityType<Cinderling>> CINDERLING = ENTITY_TYPES
@@ -201,6 +211,10 @@ public class RegistryHandler {
     public static final RegistryObject<TileEntityType<MultiboxChestTileEntity>> MULTIBOX_CHEST_TILE_ENTITY = TILE_ENTITY_TYPES
             .register("multiblock_chest", () -> TileEntityType.Builder
                     .create(MultiboxChestTileEntity::new, RegistryHandler.MULTIBOX_CHEST.get()).build(null));
+
+    public static final RegistryObject<TileEntityType<SolutionTankTileEntity>> SOLUTION_TANK_TILE_ENTITY = TILE_ENTITY_TYPES
+            .register("solution_tank", () -> TileEntityType.Builder
+                    .create(SolutionTankTileEntity::new, RegistryHandler.SOLUTION_TANK.get()).build(null));
 
 
 
@@ -241,6 +255,11 @@ public class RegistryHandler {
         BiomeDictionary.addTypes(biome, types);
         BiomeManager.addSpawnBiome(biome);
     }
+
+    //dimensions
+    public static final DeferredRegister<ModDimension> MOD_DIMENSIONS = new DeferredRegister<>(ForgeRegistries.MOD_DIMENSIONS, CrystalArchitect.MOD_ID);
+    public static final RegistryObject<ModDimension> CINDERBANE_DIM = MOD_DIMENSIONS.register("cinderbane_dim", () -> new CinderbaneModDimension());
+
 
 
     //particles
