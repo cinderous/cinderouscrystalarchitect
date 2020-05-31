@@ -51,16 +51,16 @@ public class CinderbanePoisonPotion extends Item implements ITeleporter {
             if (playerIn.getServer() != null) {
 
 
+//
+//                    if (playerIn.world.getDimension() != destination.create(worldIn)) {
 
-                    if (playerIn.world.getDimension() != destination.create(worldIn)) {
+                        playerIn.changeDimension(destination, null);
 
-                        //playerIn.changeDimension(destination, null);
-
-                    } else {
-
-                        this.placeEntity(playerIn, worldServer.getWorldServer() , worldServer, playerIn.rotationYaw, null);
-
-                    }
+//                    } else {
+//
+//                        this.placeEntity(playerIn, worldServer.getWorldServer() , worldServer, playerIn.rotationYaw, null);
+//
+//                    }
 
                     playerIn.getHeldItemMainhand().shrink(1);
 
