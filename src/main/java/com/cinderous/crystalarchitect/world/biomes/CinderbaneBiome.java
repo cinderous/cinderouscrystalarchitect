@@ -38,6 +38,7 @@ public class CinderbaneBiome extends Biome {
 
         DefaultBiomeFeatures.addOres(this);
         DefaultBiomeFeatures.addSparseGrass(this);
+        //DefaultBiomeFeatures.addStructures();
 
 
         //public static final BlockClusterFeatureConfig CINDERITE_ROCK_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(RegistryHandler.CINDERITE_ROCK), new SimpleBlockPlacer())).tries(32).build();

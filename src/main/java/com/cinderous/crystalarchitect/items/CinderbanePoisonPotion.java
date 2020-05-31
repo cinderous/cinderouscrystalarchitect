@@ -2,6 +2,7 @@ package com.cinderous.crystalarchitect.items;
 
 import com.cinderous.crystalarchitect.CrystalArchitect;
 import com.cinderous.crystalarchitect.util.RegistryHandler;
+import com.cinderous.crystalarchitect.world.CinderbaneTeleporter;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,10 +13,12 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.Heightmap;
@@ -37,37 +40,19 @@ public class CinderbanePoisonPotion extends Item implements ITeleporter {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        DimensionType destination = DimensionType.byName(CrystalArchitect.CINDERBANE_DIM_TYPE);
-
-//        ServerPlayerEntity entityPlayerMP = (ServerPlayerEntity) playerIn;
-
-        MinecraftServer server = playerIn.getEntityWorld().getServer();
-
-        ServerWorld worldServer = server.getWorld(destination);
-
-
+        CinderbaneTeleporter tp = new CinderbaneTeleporter(playerIn.getPosition());
         if (!worldIn.isRemote) {
-
-            if (playerIn.getServer() != null) {
-
-
-//
-//                    if (playerIn.world.getDimension() != destination.create(worldIn)) {
-
-                        playerIn.changeDimension(destination, null);
-
-//                    } else {
-//
-//                        this.placeEntity(playerIn, worldServer.getWorldServer() , worldServer, playerIn.rotationYaw, null);
-//
-//                    }
-
-                    playerIn.getHeldItemMainhand().shrink(1);
-
+//            if (playerIn.isInWater()) {
+                if (worldIn.dimension.getType() == DimensionType.byName(CrystalArchitect.CINDERBANE_DIM_TYPE)) {
+                    playerIn.changeDimension(DimensionType.OVERWORLD, tp);
+                } else {
+                    playerIn.changeDimension(DimensionType.byName(CrystalArchitect.CINDERBANE_DIM_TYPE), tp);
                 }
-
-            }
-
-        return super.onItemRightClick(worldIn, playerIn, handIn);
+//            } else {
+//                playerIn.sendMessage(new StringTextComponent("get in the water to work k thx"));
+//            }
+        }
+        return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
     }
 }
+

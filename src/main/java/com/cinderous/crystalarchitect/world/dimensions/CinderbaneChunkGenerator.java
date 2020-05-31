@@ -8,6 +8,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.gen.OctavesNoiseGenerator;
 
@@ -130,4 +131,6 @@ public class CinderbaneChunkGenerator extends NoiseChunkGenerator<CinderbaneGenS
     public int getSeaLevel() {
         return 63;
     }
+
+
 }
