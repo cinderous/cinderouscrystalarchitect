@@ -17,5 +17,5 @@ public class ForgeEventBusSubscriber {
                     true);
         }
         CrystalArchitect.LOGGER.info("Dimensions Registered!");
-    } 
+    }
 }
