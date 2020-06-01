@@ -47,6 +47,8 @@ public class CinderbaneTeleporter  implements ITeleporter {
 
                         if (destWorld.getBlockState(pos).getBlock() == Blocks.AIR.getDefaultState().getBlock()) {
                             pos.add(0,1,0);
+                            CrystalArchitect.LOGGER.info("FOUND AIR AND ADDING to Y");
+                            //does not appear to be adding to the vector3 loop endless is stuck at y 63
 
 
 
@@ -72,6 +74,7 @@ public class CinderbaneTeleporter  implements ITeleporter {
                         skycheckpos.add(0,1,0);
                         CrystalArchitect.LOGGER.info(skycheckpos.getY());
                         finalpos.add(0, skycheckpos.getY(),0);
+                        //does not appear to be adding to the vector3 loop endless is stuck at y 63
 
                     } return skycheckpos.getY();
 
