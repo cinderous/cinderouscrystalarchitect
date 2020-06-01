@@ -2,6 +2,7 @@ package com.cinderous.crystalarchitect.world;
 
 import com.cinderous.crystalarchitect.CrystalArchitect;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.renderer.Vector3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -14,14 +15,21 @@ public class CinderbaneTeleporter  implements ITeleporter {
 
 
     BlockPos pos;
-    BlockPos finalpos = new BlockPos(0, 0, 0);
+
+    int test = 10;
 
 
     public CinderbaneTeleporter(BlockPos pos) {
 
         this.pos = pos;
 
+
     }
+
+
+    public BlockPos finalpos = new BlockPos(0, 0, 0);
+    public BlockPos freshpos = new BlockPos(0, 0, 0);
+    public BlockPos testpos;
 
     @Override
     public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
@@ -39,31 +47,41 @@ public class CinderbaneTeleporter  implements ITeleporter {
                 CrystalArchitect.LOGGER.info("THE X LOOP");
                 for (int y = sealevel; y == sealevel; ++y ) {
                     CrystalArchitect.LOGGER.info(" THE Y LOOP");
-                    for (int z = 0; z < maxZ; ++z) {
-                        CrystalArchitect.LOGGER.info("THE Z LOOP");
-                        //int index = y * maxX * maxZ + z * maxX + x;
-                        BlockPos pos = new BlockPos(x, y, z);
+                        for (int z = 0; z < maxZ; ++z) {
+                            CrystalArchitect.LOGGER.info("THE Z LOOP");
+                            //int index = y * maxX * maxZ + z * maxX + x;
+                            Vec3d testing =  new Vec3d (x, y, z);
 
+                            freshpos.add(x,y,z);
+                            //testpos.(testing);
 
-                        if (destWorld.getBlockState(pos).getBlock() == Blocks.AIR.getDefaultState().getBlock()) {
-                            pos.add(0,1,0);
-                            CrystalArchitect.LOGGER.info("FOUND AIR AND ADDING to Y");
-                            //does not appear to be adding to the vector3 loop endless is stuck at y 63
-
-
-
-                            finalpos.add(pos.getX(), pos.getY(), pos.getZ());
-
-                            if(checkForSky(heightlevel, destWorld, pos) == heightlevel) {
-                                entity.setPosition(finalpos.getX(), finalpos.getY() + 2, finalpos.getZ());
-                            };
+                            CrystalArchitect.LOGGER.info(z);
 
 
 
-                            }
+                            if (destWorld.getBlockState(freshpos).getBlock() == Blocks.AIR.getDefaultState().getBlock()) {
+                                freshpos.add(0,1,0);
+                                test += 1;
+                                CrystalArchitect.LOGGER.info(test);
+
+                               CrystalArchitect.LOGGER.info("FOUND AIR AND ADDING to Y");
+                                //does not appear to be adding to the vector3 loop endless is stuck at y 63
+                                CrystalArchitect.LOGGER.info(freshpos.getY());
 
 
-                            }
+
+                                finalpos.add(freshpos.getX(), freshpos.getY(), freshpos.getZ());
+
+                                if(checkForSky(heightlevel, destWorld, freshpos) == heightlevel) {
+                                    entity.setPosition(finalpos.getX(), finalpos.getY() + 2, finalpos.getZ());
+                                };
+
+
+
+                                }
+
+
+                                }
                         }
 
                     }return repositionEntity.apply(false);
