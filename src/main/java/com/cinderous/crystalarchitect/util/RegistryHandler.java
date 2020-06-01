@@ -4,8 +4,8 @@ import com.cinderous.crystalarchitect.CrystalArchitect;
 import com.cinderous.crystalarchitect.blocks.*;
 import com.cinderous.crystalarchitect.containers.ExperimentBoxContainer;
 import com.cinderous.crystalarchitect.containers.MultiboxChestContainer;
+import com.cinderous.crystalarchitect.effects.CinderbanedEffect;
 import com.cinderous.crystalarchitect.entities.Cinderling;
-import com.cinderous.crystalarchitect.fluid.BasicTank;
 import com.cinderous.crystalarchitect.items.CinderbanePoisonPotion;
 import com.cinderous.crystalarchitect.items.CinderiteDust;
 import com.cinderous.crystalarchitect.items.ItemBase;
@@ -17,19 +17,22 @@ import com.cinderous.crystalarchitect.util.enums.ModItemTiers;
 import com.cinderous.crystalarchitect.world.biomes.CinderbaneBiome;
 import com.cinderous.crystalarchitect.world.dimensions.CinderbaneModDimension;
 import com.cinderous.crystalarchitect.world.feature.CinderwoodTree;
-import jdk.nashorn.internal.runtime.logging.DebugLogger;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.*;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.EffectType;
+import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -37,21 +40,16 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.ModDimension;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.IForgeRegistry;
 
 public class RegistryHandler {
 
@@ -72,6 +70,8 @@ public class RegistryHandler {
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = new DeferredRegister<>(ForgeRegistries.ENTITIES, CrystalArchitect.MOD_ID);
     public static final DeferredRegister<ContainerType<?>> CONTAINER_TYPE_DEFERRED_REGISTER = new DeferredRegister<>(ForgeRegistries.CONTAINERS, CrystalArchitect.MOD_ID);
+    public static final DeferredRegister<Effect> POTIONS = new DeferredRegister<>(ForgeRegistries.POTIONS, CrystalArchitect.MOD_ID);
+    public static final DeferredRegister<Potion> POTION_EFFECTS = new DeferredRegister<>(ForgeRegistries.POTION_TYPES, CrystalArchitect.MOD_ID);
 
     //public static final DeferredRegister<Gui<?>> GUI = new DeferredRegister<>(ForgeRegistries.CONTAINERS, CrystalArchitect.MOD_ID);
 
@@ -83,6 +83,8 @@ public class RegistryHandler {
     public static void init() {
        // PARTICLE_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
         SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        POTIONS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        POTION_EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         FLUIDS.register(FMLJavaModLoadingContext.get().getModEventBus());
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
@@ -105,8 +107,20 @@ public class RegistryHandler {
     public static final RegistryObject<Item> CINDERIUM_INGOT = ITEMS.register("cinderium_ingot", ItemBase::new);
     public static final RegistryObject<Item> CINDERITE_DUST = ITEMS.register("cinderite_dust", CinderiteDust::new);
     public static final RegistryObject<Item> CINDERFLUX = ITEMS.register("cinderflux", ItemBase::new);
-    public static final RegistryObject<Item> CINDERBANE_POISON_POTION = ITEMS.register("cinderbane_poison_potion", CinderbanePoisonPotion::new);
 
+    //POTION ITEMS
+    public static final RegistryObject<PotionItem> CINDERBANE_POTION_BOTTLE = ITEMS.register("cinderbane_potion_bottle", CinderbanePoisonPotion::new);
+
+
+
+    //potion effects
+    public static final RegistryObject<Effect> CINDERBANED_EFFECT = POTIONS.register("cinderbaned_effect",
+            () -> new CinderbanedEffect(EffectType.BENEFICIAL, 37848743).addAttributesModifier(
+                    SharedMonsterAttributes.ATTACK_SPEED, "AF8B6E3F-3328-4C0A-AA36-5BA2BB9DBEF3", 1.0D,
+                    AttributeModifier.Operation.ADDITION));
+    //potions
+    public static final RegistryObject<Potion> CINDERBANE_POTION = POTION_EFFECTS.register("cinderbane_potion",
+            () -> new Potion(new EffectInstance(CINDERBANED_EFFECT.get())));
 
     //Tool Items
     public static final RegistryObject<AxeItem> SHARPENED_CINDERITE_ROCK = ITEMS.register("sharpened_cinderite_rock",
@@ -261,6 +275,12 @@ public class RegistryHandler {
     public static final RegistryObject<ModDimension> CINDERBANE_DIM = MOD_DIMENSIONS.register("cinderbane_dim", () -> new CinderbaneModDimension());
 
 
+
+////effects
+//public static final RegistryObject<Effect> CINDERBANED_EFFECT = POTIONS.register("cinderbaned_effect",
+//        () -> new CinderbanedEffect(EffectType.HARMFUL, 37848743).addAttributesModifier(
+//                SharedMonsterAttributes.ATTACK_SPEED, "AF8B6E3F-3328-4C0A-AA36-5BA2BB9DBEF3", 1.0D,
+//                AttributeModifier.Operation.ADDITION));
 
     //particles
 

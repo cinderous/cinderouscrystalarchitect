@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "crystalarchitect:items/cinderbane_potion_bottle"
+  }
+}
