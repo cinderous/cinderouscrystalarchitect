@@ -2,10 +2,8 @@ package com.cinderous.crystalarchitect.world;
 
 import com.cinderous.crystalarchitect.CrystalArchitect;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.renderer.Vector3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.ITeleporter;
 
@@ -30,6 +28,7 @@ public class CinderbaneTeleporter  implements ITeleporter {
     //public BlockPos finalpos = new BlockPos(0, 0, 0);
 
     public BlockPos testpos;
+    public boolean foundsky = false;
 
     @Override
     public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
@@ -40,13 +39,14 @@ public class CinderbaneTeleporter  implements ITeleporter {
             int heightlevel = destWorld.getHeight();
             int maxX = 200;
             int maxZ = 200;
-            BlockPos startpos = new BlockPos(0,0,0);
+            int maxY = 254;
+            boolean foundair = false;
 
-            Vec3d loc = new Vec3d(0, 0, 0);
+            BlockPos startpos = new BlockPos(0,0,0);
 
             for (int x = 0; x < maxX; ++x) {
                 CrystalArchitect.LOGGER.info("THE X LOOP");
-                for (int y = sealevel; y == sealevel; ++y ) {
+                for (int y = 0; y < maxY; ++y ) {
                     CrystalArchitect.LOGGER.info(" THE Y LOOP");
                         for (int z = 0; z < maxZ; ++z) {
                             CrystalArchitect.LOGGER.info("THE Z LOOP");
@@ -54,7 +54,7 @@ public class CinderbaneTeleporter  implements ITeleporter {
                             int i = startpos.getY() + 1;
                             BlockPos freshpos = new BlockPos(x, y, z);
 
-                            CrystalArchitect.LOGGER.info(freshpos);
+                            CrystalArchitect.LOGGER.info("THIS IS XYZ OF freshpos" + freshpos);
                             //CrystalArchitect.LOGGER.info(z);
 
 
@@ -68,31 +68,52 @@ public class CinderbaneTeleporter  implements ITeleporter {
                                CrystalArchitect.LOGGER.info("FOUND AIR AND ADDING to Y");
                                 //does not appear to be adding to the vector3 loop endless is stuck at y 63
                                 //CrystalArchitect.LOGGER.info(airpos.getY());
-                                CrystalArchitect.LOGGER.info(airpos);
+                                CrystalArchitect.LOGGER.info("THIS IS THE XYZ OF airpos" + airpos);
 
                                 BlockPos finalpos = new BlockPos(x, airpos.getY(), z);
 
-                                checkForSkyAndTeleport(heightlevel, destWorld, freshpos, finalpos, entity) ;
+                                CrystalArchitect.LOGGER.info("THIS IS THE XYZ OF finalpos BEFORE checkforskyandteleport" + airpos);
+                                foundair = true;
+                                checkForSkyAndTeleport(heightlevel, destWorld, airpos, finalpos, entity, foundair, ii);
                             }
+
+                        foundair = false;
+
+
                         }
                     }
 
                 }return repositionEntity.apply(false);
     }
 
-    public boolean checkForSkyAndTeleport(int skybox, ServerWorld dest, BlockPos skycheckpos, BlockPos finalpos, Entity entity) {
-        while( dest.getBlockState(skycheckpos)==Blocks.AIR.getDefaultState() && skycheckpos.getY()<=skybox ){
+    public void checkForSkyAndTeleport(int skybox, ServerWorld dest, BlockPos skycheckpos, BlockPos finalpos, Entity entity, boolean foundair, int iiii) {
+        for(int y = finalpos.getY() ;dest.getBlockState(skycheckpos)==Blocks.AIR.getDefaultState() && foundair && y<= skybox; ++y ){
+
             int ii = skycheckpos.getY() + 1;
             BlockPos upwardspos = new BlockPos(skycheckpos.getX(), ii, skycheckpos.getZ());
 
-            CrystalArchitect.LOGGER.info(skycheckpos.getY());
+            CrystalArchitect.LOGGER.info("THIS IS THE XYZ OF skycheckpos which is also airpos" + skycheckpos);
+            CrystalArchitect.LOGGER.info("THIS IS THE XYZ OF upwardspos " + upwardspos);
 
-            int iii = finalpos.getY() + 1;
+            int iii = upwardspos.getY() + 1;
             BlockPos readypos = new BlockPos(finalpos.getX(), iii,finalpos.getZ());
 
-            entity.setPosition(readypos.getX(), readypos.getY() + 2, readypos.getZ());
 
-        } return true;
+            //CrystalArchitect.LOGGER.info(foundsky);
+
+            CrystalArchitect.LOGGER.info("THIS IS finalpos" + finalpos);
+            CrystalArchitect.LOGGER.info(skycheckpos.getY() - upwardspos.getY());
+
+            CrystalArchitect.LOGGER.info(iiii);
+
+            if(iiii - upwardspos.getY() >= -1) {
+                entity.setPosition(readypos.getX(), readypos.getY() + 2, readypos.getZ());
+            } //else if (upwardspos.getY() == skybox) {
+                //foundsky = true;
+
+            //}
+
+        }
 
 
     }
