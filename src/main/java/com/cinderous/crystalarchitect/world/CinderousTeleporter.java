@@ -43,25 +43,31 @@ public class CinderousTeleporter  implements ITeleporter {
         Random rand = new Random();
 
         BlockPos startpos = new BlockPos(rand.nextInt(500),heightlevel,rand.nextInt(500));
+        Random randX = new Random();
+        Random randZ = new Random();
+        int xx = randX.nextInt(500);
+        int zz = randZ.nextInt(500);
 
-        for (int x = 0; x < maxX; --x) {
+
+        for (int x = 0; x < xx; ++x) {
             CrystalArchitect.LOGGER.info("THE X LOOP");
-            for (int y = 0; y < maxY; --y ) {
+            for (int y = 0; y < maxY; ++y ) {
                 CrystalArchitect.LOGGER.info(" THE Y LOOP");
-                for (int z = 0; z < maxZ; --z) {
+                for (int z = 0; z < zz; ++z) {
                     CrystalArchitect.LOGGER.info("THE Z LOOP");
+                    CrystalArchitect.LOGGER.info("THE Z " +z);
                     CrystalArchitect.LOGGER.info("STARTPOS" + startpos);
 
-                    startpos.subtract(startposvec);
-                    //startpos.add(x,-1,z);
-                    CrystalArchitect.LOGGER.info("STARTPOS AFTER ADDING NEGATIVE ONE AIR FOUND" + startpos);
-////                    int i = startpos.getY() + 1;
-//                    BlockPos freshpos = new BlockPos(x, y, z);
+                    //startpos.subtract(startposvec);
 
-                    //CrystalArchitect.LOGGER.info(z);
+                    //The z loop runs forever over and over again but the y value of startpos never changes....
+                    startpos.add(0,-1,0);
+                    CrystalArchitect.LOGGER.info("STARTPOS AFTER ADDING NEGATIVE ONE AIR BEFORE FOUND" + startpos);
+
 
                     if (destWorld.getBlockState(startpos).getBlock() == Blocks.AIR.getDefaultState().getBlock()) {
-                        startpos.subtract(startposvec);
+                        startpos.add(0,-1,0);
+                        //startpos.subtract(startposvec);
                         CrystalArchitect.LOGGER.info("STARTPOS AFTER ADDING NEGATIVE ONE BEFORE !!!!AFTER!!! FOUND" + startpos);
 
 
@@ -70,7 +76,8 @@ public class CinderousTeleporter  implements ITeleporter {
                         foundair = true;
 
                         for(int yy = startpos.getY() ;destWorld.getBlockState(startpos)==Blocks.AIR.getDefaultState() && foundair; --yy ) {
-                            startpos.subtract(startposvec);
+                            startpos.add(0,-1,0);
+                            //startpos.subtract(startposvec);
 
                             if (destWorld.getBlockState(startpos) != Blocks.AIR.getDefaultState()) {
                                 entity.setPosition(startpos.getX(), startpos.getY() + 2, startpos.getZ());

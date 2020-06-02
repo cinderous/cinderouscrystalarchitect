@@ -4,6 +4,7 @@ import com.cinderous.crystalarchitect.CrystalArchitect;
 import com.cinderous.crystalarchitect.util.RegistryHandler;
 import com.cinderous.crystalarchitect.world.CinderbaneTeleporter;
 import com.cinderous.crystalarchitect.world.CinderousTeleporter;
+import com.cinderous.crystalarchitect.world.GroundFinderTeleporter;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -42,7 +43,7 @@ public class CinderbanePoisonPotion extends PotionItem implements ITeleporter {
 
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
-        CinderousTeleporter tp = new CinderousTeleporter(entityLiving.getPosition());
+        GroundFinderTeleporter tp = new GroundFinderTeleporter(entityLiving.getPosition(), RegistryHandler.CINDIRT_GRASS.get().getDefaultState().getBlock());
         if (!worldIn.isRemote) {
 
             if (worldIn.dimension.getType() == DimensionType.byName(CrystalArchitect.CINDERBANE_DIM_TYPE)) {
