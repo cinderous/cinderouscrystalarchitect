@@ -20,12 +20,24 @@ public class HyperlaneLivingEvent {
     LivingEntity livingEntity = event.getEntityLiving();
     World world = livingEntity.getEntityWorld();
         if (livingEntity.getActivePotionEffect(RegistryHandler.HYPERLANE_EFFECT.get()) != null && world.getDimension().getType() == DimensionType.OVERWORLD) {
+            CrystalArchitect.LOGGER.info("THIS EVENT IS FIRING OFF BECAUSE HYPERLANE EFFECT ISNT NULL AND THE DIMENSIONTYPE IS OVERWORLD");
             livingEntity.setGlowing(true);
             world.setBlockState(livingEntity.getPosition(), RegistryHandler.HYPERLANE_GEL_SLAB.get().getDefaultState());
 
-        } else if (livingEntity.getActivePotionEffect(RegistryHandler.HYPERLANE_EFFECT.get()) == null) {
-            livingEntity.setGlowing(false);
-        };
+        }
+        if (livingEntity.getActivePotionEffect(RegistryHandler.HYPERLANE_EFFECT.get()) != null && world.getDimension() == RegistryHandler.HYPERLANE_DIM.get().getFactory()) {
+            CrystalArchitect.LOGGER.info("THIS EVENT IS FIRING OFF BECAUSE HYPERLANE EFFECT ISNT NULL AND THE DIMENSIONTYPE IS HYPERLANE");
+            livingEntity.setGlowing(true);
+            world.setBlockState(livingEntity.getPosition(), RegistryHandler.HYPERLANE_GEL_SLAB.get().getDefaultState());
+
+        }
+        if(world.getDimension().getType() == DimensionType.byName(CrystalArchitect.CINDERBANE_DIM_TYPE)) {
+            CrystalArchitect.LOGGER.info("THIS EVENT IS FIRING OFF!!!");
+            world.setBlockState(livingEntity.getPosition(), RegistryHandler.HYPERLANE_GEL_SLAB.get().getDefaultState());
+        }
+
+
+
 //        if (world.getDimension().getType() == RegistryHandler.HYPERLANE_DIM.get().getFactory() ) {
 //            //livingEntity.setGlowing(true);
 //        }

@@ -199,6 +199,8 @@ public class RegistryHandler {
     public static final RegistryObject<Block> HYPERLANE_GEL_SLAB = BLOCKS.register("hyperlane_gel_slab",
             () -> new SlabBlock(Block.Properties.from(RegistryHandler.HYPERLANE_GEL_BLOCK.get())));
 
+    public static final RegistryObject<Block> HYPERLANE_GRAVEL = BLOCKS.register("hyperlane_gravel", HyperlaneGravel::new);
+
 
     //block items
     public static final RegistryObject<Item> CINDERIUM_BLOCK_ITEM = ITEMS.register("cinderium_block", () -> new BlockItemBase(CINDERIUM_BLOCK.get()));
@@ -216,6 +218,8 @@ public class RegistryHandler {
     public static final RegistryObject<Item> MULTIBOX_CHEST_ITEM = ITEMS.register("multibox_chest", () -> new BlockItemBase(MULTIBOX_CHEST.get()));
     public static final RegistryObject<Item> SOLUTION_TANK_ITEM = ITEMS.register("solution_tank", () -> new BlockItemBase(SOLUTION_TANK.get()));
     public static final RegistryObject<Item> HYPERLANE_GEL_BLOCK_ITEM = ITEMS.register("hyperlane_gel_block", () -> new BlockHyperlaneBase(HYPERLANE_GEL_BLOCK.get()));
+    public static final RegistryObject<Item> HYPERLANE_GEL_SLAB_ITEM = ITEMS.register("hyperlane_gel_slab", () -> new BlockHyperlaneBase(HYPERLANE_GEL_SLAB.get()));
+    public static final RegistryObject<Item> HYPERLANE_GRAVEL_ITEM = ITEMS.register("hyperlane_gravel", () -> new BlockHyperlaneBase(HYPERLANE_GRAVEL.get()));
 
     //entities
     public static final RegistryObject<EntityType<Cinderling>> CINDERLING = ENTITY_TYPES
@@ -276,7 +280,7 @@ public class RegistryHandler {
                     .surfaceBuilder(SurfaceBuilder.DEFAULT,
                             new SurfaceBuilderConfig(
                                     RegistryHandler.HYPERLANE_GEL_BLOCK.get().getDefaultState(),
-                                    RegistryHandler.HYPERLANE_GEL_BLOCK.get().getDefaultState(),
+                                    RegistryHandler.HYPERLANE_GRAVEL.get().getDefaultState(),
                                     RegistryHandler.HYPERLANE_GEL_BLOCK.get().getDefaultState()))
                     .category(Biome.Category.ICY)
                     .downfall(0.5f)
