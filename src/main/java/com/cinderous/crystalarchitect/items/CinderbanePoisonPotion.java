@@ -47,8 +47,10 @@ public class CinderbanePoisonPotion extends PotionItem implements ITeleporter {
         if (!worldIn.isRemote) {
 
             if (worldIn.dimension.getType() == DimensionType.byName(CrystalArchitect.CINDERBANE_DIM_TYPE)) {
+                entityLiving.addPotionEffect(new EffectInstance(RegistryHandler.HYPERLANE_EFFECT.get()));
                 entityLiving.changeDimension(DimensionType.OVERWORLD, tp);
             } else {
+                entityLiving.removePotionEffect(RegistryHandler.HYPERLANE_EFFECT.get());
                 entityLiving.changeDimension(DimensionType.byName(CrystalArchitect.CINDERBANE_DIM_TYPE), tp);
             }
 
@@ -76,7 +78,7 @@ public class CinderbanePoisonPotion extends PotionItem implements ITeleporter {
     public UseAction getUseAction(ItemStack stack) {
         if (this.isInGroup(group)) {
             for (Potion potion : Registry.POTION) {
-                if (potion == Potions.EMPTY || potion == Potions.WATER) {
+                if (potion == Potions.WATER) {
                     return UseAction.DRINK;
                 }
             }

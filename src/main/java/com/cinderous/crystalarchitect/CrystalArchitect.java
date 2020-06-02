@@ -79,6 +79,13 @@ public class CrystalArchitect
         }
 
     };
+    public static final ItemGroup HYPERLANE_TAB = new ItemGroup("hyperlaneTab") {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(RegistryHandler.HYPERLANE_GEL_BLOCK_ITEM.get());
+        }
+
+    };
 
     @SubscribeEvent
     public static void onRegisterBiomes(final RegistryEvent.Register<Biome> event) {

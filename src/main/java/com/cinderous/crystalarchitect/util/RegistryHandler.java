@@ -5,6 +5,7 @@ import com.cinderous.crystalarchitect.blocks.*;
 import com.cinderous.crystalarchitect.containers.ExperimentBoxContainer;
 import com.cinderous.crystalarchitect.containers.MultiboxChestContainer;
 import com.cinderous.crystalarchitect.effects.CinderbanedEffect;
+import com.cinderous.crystalarchitect.effects.HyperlaneEffect;
 import com.cinderous.crystalarchitect.entities.Cinderling;
 import com.cinderous.crystalarchitect.items.CinderbanePoisonPotion;
 import com.cinderous.crystalarchitect.items.CinderiteDust;
@@ -120,6 +121,11 @@ public class RegistryHandler {
             () -> new CinderbanedEffect(EffectType.BENEFICIAL, 37848743).addAttributesModifier(
                     SharedMonsterAttributes.ATTACK_SPEED, "AF8B6E3F-3328-4C0A-AA36-5BA2BB9DBEF3", 1.0D,
                     AttributeModifier.Operation.ADDITION));
+
+    public static final RegistryObject<Effect> HYPERLANE_EFFECT = POTIONS.register("hyperlane_effect",
+            () -> new HyperlaneEffect(EffectType.NEUTRAL, 37848743).addAttributesModifier(
+                    SharedMonsterAttributes.ATTACK_SPEED, "AF8B6E3F-3328-4C0A-AA36-5BA2BB9DBEF3", 1.0D,
+                    AttributeModifier.Operation.ADDITION));
     //potions
     public static final RegistryObject<Potion> CINDERBANE_POTION = POTION_EFFECTS.register("cinderbane_potion",
             () -> new Potion(new EffectInstance(CINDERBANED_EFFECT.get())));
@@ -190,6 +196,9 @@ public class RegistryHandler {
 
     public static final RegistryObject<Block> HYPERLANE_GEL_BLOCK = BLOCKS.register("hyperlane_gel_block", HyperlaneGelBlock::new);
 
+    public static final RegistryObject<Block> HYPERLANE_GEL_SLAB = BLOCKS.register("hyperlane_gel_slab",
+            () -> new SlabBlock(Block.Properties.from(RegistryHandler.HYPERLANE_GEL_BLOCK.get())));
+
 
     //block items
     public static final RegistryObject<Item> CINDERIUM_BLOCK_ITEM = ITEMS.register("cinderium_block", () -> new BlockItemBase(CINDERIUM_BLOCK.get()));
@@ -206,7 +215,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> EXPERIMENT_BOX_ITEM = ITEMS.register("experiment_box", () -> new BlockItemBase(EXPERIMENT_BOX.get()));
     public static final RegistryObject<Item> MULTIBOX_CHEST_ITEM = ITEMS.register("multibox_chest", () -> new BlockItemBase(MULTIBOX_CHEST.get()));
     public static final RegistryObject<Item> SOLUTION_TANK_ITEM = ITEMS.register("solution_tank", () -> new BlockItemBase(SOLUTION_TANK.get()));
-    public static final RegistryObject<Item> HYPERLANE_GEL_BLOCK_ITEM = ITEMS.register("hyperlane_gel_block", () -> new BlockItemBase(HYPERLANE_GEL_BLOCK.get()));
+    public static final RegistryObject<Item> HYPERLANE_GEL_BLOCK_ITEM = ITEMS.register("hyperlane_gel_block", () -> new BlockHyperlaneBase(HYPERLANE_GEL_BLOCK.get()));
 
     //entities
     public static final RegistryObject<EntityType<Cinderling>> CINDERLING = ENTITY_TYPES

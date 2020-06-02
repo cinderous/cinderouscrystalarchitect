@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "crystalarchitect:block/hyperlane_gel_slab" },
+    "type=top": { "model": "crystalarchitect:block/hyperlane_gel_slab_top" },
+    "type=double": { "model": "crystalarchitect:block/hyperlane_gel_slab" }
+  }
+}
