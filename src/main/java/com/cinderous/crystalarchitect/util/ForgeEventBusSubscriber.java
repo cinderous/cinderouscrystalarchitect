@@ -16,6 +16,10 @@ public class ForgeEventBusSubscriber {
             DimensionManager.registerDimension(CrystalArchitect.CINDERBANE_DIM_TYPE, RegistryHandler.CINDERBANE_DIM.get(), null,
                     true);
         }
+        if (DimensionType.byName(CrystalArchitect.HYPERLANE_DIM_TYPE) == null) {
+            DimensionManager.registerDimension(CrystalArchitect.HYPERLANE_DIM_TYPE, RegistryHandler.HYPERLANE_DIM.get(), null,
+                    true);
+        }
         CrystalArchitect.LOGGER.info("Dimensions Registered!");
     }
 }

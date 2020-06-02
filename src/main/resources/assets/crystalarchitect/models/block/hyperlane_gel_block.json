@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "crystalarchitect:blocks/hyperlane_gel_block"
+  }
+}

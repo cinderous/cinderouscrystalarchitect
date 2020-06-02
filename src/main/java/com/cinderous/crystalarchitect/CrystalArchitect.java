@@ -34,6 +34,7 @@ public class CrystalArchitect
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MOD_ID = "crystalarchitect";
     public static final ResourceLocation CINDERBANE_DIM_TYPE = new ResourceLocation(MOD_ID, "cinderbane");
+    public static final ResourceLocation HYPERLANE_DIM_TYPE = new ResourceLocation(MOD_ID, "hyperlane");
 
     public CrystalArchitect() {
         // Register the setup method for modloading

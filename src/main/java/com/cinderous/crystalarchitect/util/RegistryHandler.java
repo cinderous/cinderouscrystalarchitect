@@ -15,7 +15,9 @@ import com.cinderous.crystalarchitect.tileentities.MultiboxChestTileEntity;
 import com.cinderous.crystalarchitect.tileentities.SolutionTankTileEntity;
 import com.cinderous.crystalarchitect.util.enums.ModItemTiers;
 import com.cinderous.crystalarchitect.world.biomes.CinderbaneBiome;
+import com.cinderous.crystalarchitect.world.biomes.HyperlaneDrifts;
 import com.cinderous.crystalarchitect.world.dimensions.CinderbaneModDimension;
+import com.cinderous.crystalarchitect.world.dimensions.HyperlaneModDimension;
 import com.cinderous.crystalarchitect.world.feature.CinderwoodTree;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -167,10 +169,6 @@ public class RegistryHandler {
 
     public static final RegistryObject<Block> CINDIRT_GRASS = BLOCKS.register("cindirt_grass", CindirtGrass::new);
 
-
-
-
-
     public static final RegistryObject<Block> CINDERWOOD_PLANKS = BLOCKS.register("cinderwood_planks",
             () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
 
@@ -190,6 +188,8 @@ public class RegistryHandler {
 
     public static final RegistryObject<Block> SOLUTION_TANK = BLOCKS.register("solution_tank", SolutionTank::new);
 
+    public static final RegistryObject<Block> HYPERLANE_GEL_BLOCK = BLOCKS.register("hyperlane_gel_block", HyperlaneGelBlock::new);
+
 
     //block items
     public static final RegistryObject<Item> CINDERIUM_BLOCK_ITEM = ITEMS.register("cinderium_block", () -> new BlockItemBase(CINDERIUM_BLOCK.get()));
@@ -206,6 +206,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> EXPERIMENT_BOX_ITEM = ITEMS.register("experiment_box", () -> new BlockItemBase(EXPERIMENT_BOX.get()));
     public static final RegistryObject<Item> MULTIBOX_CHEST_ITEM = ITEMS.register("multibox_chest", () -> new BlockItemBase(MULTIBOX_CHEST.get()));
     public static final RegistryObject<Item> SOLUTION_TANK_ITEM = ITEMS.register("solution_tank", () -> new BlockItemBase(SOLUTION_TANK.get()));
+    public static final RegistryObject<Item> HYPERLANE_GEL_BLOCK_ITEM = ITEMS.register("hyperlane_gel_block", () -> new BlockItemBase(HYPERLANE_GEL_BLOCK.get()));
 
     //entities
     public static final RegistryObject<EntityType<Cinderling>> CINDERLING = ENTITY_TYPES
@@ -260,9 +261,24 @@ public class RegistryHandler {
                     .depth(0.12f)
                     .parent(null)
             ));
+    public static final RegistryObject<Biome> HYPERLANE_DRIFTS = BIOMES.register("hyperlane_drifts",
+            () -> new HyperlaneDrifts(new Biome.Builder().precipitation(Biome.RainType.SNOW).scale(1.2f).temperature(0.5f)
+                    .waterColor(16777215).waterFogColor(16777215)
+                    .surfaceBuilder(SurfaceBuilder.DEFAULT,
+                            new SurfaceBuilderConfig(
+                                    RegistryHandler.HYPERLANE_GEL_BLOCK.get().getDefaultState(),
+                                    RegistryHandler.HYPERLANE_GEL_BLOCK.get().getDefaultState(),
+                                    RegistryHandler.HYPERLANE_GEL_BLOCK.get().getDefaultState()))
+                    .category(Biome.Category.ICY)
+                    .downfall(0.5f)
+                    .depth(0.12f)
+                    .parent(null)
+
+            ));
 
     public static void registerBiomes(){
         registerBiome(CINDERBANE.get(), BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.OVERWORLD);
+        registerBiome(HYPERLANE_DRIFTS.get(), BiomeDictionary.Type.PLAINS, BiomeDictionary.Type.OVERWORLD);
     }
 
     public static void registerBiome(Biome biome, BiomeDictionary.Type... types) {
@@ -273,6 +289,8 @@ public class RegistryHandler {
     //dimensions
     public static final DeferredRegister<ModDimension> MOD_DIMENSIONS = new DeferredRegister<>(ForgeRegistries.MOD_DIMENSIONS, CrystalArchitect.MOD_ID);
     public static final RegistryObject<ModDimension> CINDERBANE_DIM = MOD_DIMENSIONS.register("cinderbane_dim", () -> new CinderbaneModDimension());
+
+    public static final RegistryObject<ModDimension> HYPERLANE_DIM = MOD_DIMENSIONS.register("hyperlane_dim", () -> new HyperlaneModDimension());
 
 
 
