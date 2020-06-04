@@ -3,20 +3,27 @@ package com.cinderous.crystalarchitect.util;
 import com.cinderous.crystalarchitect.CrystalArchitect;
 import com.cinderous.crystalarchitect.blocks.*;
 import com.cinderous.crystalarchitect.containers.ExperimentBoxContainer;
+
+import com.cinderous.crystalarchitect.containers.HyperlaneFurnaceContainer;
 import com.cinderous.crystalarchitect.containers.MultiboxChestContainer;
 import com.cinderous.crystalarchitect.effects.CinderbanedEffect;
 import com.cinderous.crystalarchitect.effects.HyperlaneEffect;
 import com.cinderous.crystalarchitect.entities.Cinderling;
+import com.cinderous.crystalarchitect.entities.HyperlanePhantom;
 import com.cinderous.crystalarchitect.items.CinderbanePoisonPotion;
 import com.cinderous.crystalarchitect.items.CinderiteDust;
+import com.cinderous.crystalarchitect.items.HyperlaneBaseItem;
 import com.cinderous.crystalarchitect.items.ItemBase;
 //import com.cinderous.crystalarchitect.particles.ColouredParticle;
 import com.cinderous.crystalarchitect.tileentities.ExperimentBoxTileEntity;
+
+import com.cinderous.crystalarchitect.tileentities.HyperlaneFurnaceTileEntity;
 import com.cinderous.crystalarchitect.tileentities.MultiboxChestTileEntity;
 import com.cinderous.crystalarchitect.tileentities.SolutionTankTileEntity;
 import com.cinderous.crystalarchitect.util.enums.ModItemTiers;
 import com.cinderous.crystalarchitect.world.biomes.CinderbaneBiome;
 import com.cinderous.crystalarchitect.world.biomes.HyperlaneDrifts;
+import com.cinderous.crystalarchitect.world.biomes.HyperlaneDriftsSurfaceBuilder;
 import com.cinderous.crystalarchitect.world.dimensions.CinderbaneModDimension;
 import com.cinderous.crystalarchitect.world.dimensions.HyperlaneModDimension;
 import com.cinderous.crystalarchitect.world.feature.CinderwoodTree;
@@ -143,6 +150,9 @@ public class RegistryHandler {
     public static final RegistryObject<BucketItem> CINDERLING_SHELL_COBBLESTONE_SOLUTION = ITEMS.register("cinderling_shell_cobblestone_solution",
             () -> new BucketItem(RegistryHandler.COBBLESTONE_SOLUTION_FLUID, new Item.Properties().group(CrystalArchitect.TAB)));
 
+    //hyperlanetools
+    //public static final RegistryObject<HyperlaneBaseItem> HYPERLANE_BASIC_TELEPORTER = ITEMS.register("hyperlane_basic_teleporter", HyperlaneBaseItem::new);
+
     //fluids
     public static final RegistryObject<FlowingFluid> COBBLESTONE_SOLUTION_FLUID = FLUIDS.register("cobblestone_solution_fluid",
             () -> new ForgeFlowingFluid.Source(RegistryHandler.COBBLESTONE_SOLUTION_PROPERTIES));
@@ -201,6 +211,9 @@ public class RegistryHandler {
 
     public static final RegistryObject<Block> HYPERLANE_GRAVEL = BLOCKS.register("hyperlane_gravel", HyperlaneGravel::new);
 
+    public static final RegistryObject<Block> HYPERLANE_FURNACE = BLOCKS.register("hyperlane_furnace", HyperlaneFurnace::new);
+
+
 
     //block items
     public static final RegistryObject<Item> CINDERIUM_BLOCK_ITEM = ITEMS.register("cinderium_block", () -> new BlockItemBase(CINDERIUM_BLOCK.get()));
@@ -220,6 +233,7 @@ public class RegistryHandler {
     public static final RegistryObject<Item> HYPERLANE_GEL_BLOCK_ITEM = ITEMS.register("hyperlane_gel_block", () -> new BlockHyperlaneBase(HYPERLANE_GEL_BLOCK.get()));
     public static final RegistryObject<Item> HYPERLANE_GEL_SLAB_ITEM = ITEMS.register("hyperlane_gel_slab", () -> new BlockHyperlaneBase(HYPERLANE_GEL_SLAB.get()));
     public static final RegistryObject<Item> HYPERLANE_GRAVEL_ITEM = ITEMS.register("hyperlane_gravel", () -> new BlockHyperlaneBase(HYPERLANE_GRAVEL.get()));
+    public static final RegistryObject<Item> HYPERLANE_FURNACE_ITEM = ITEMS.register("hyperlane_furnace", () -> new BlockHyperlaneBase(HYPERLANE_FURNACE.get()));
 
     //entities
     public static final RegistryObject<EntityType<Cinderling>> CINDERLING = ENTITY_TYPES
@@ -227,6 +241,12 @@ public class RegistryHandler {
                     () -> EntityType.Builder.<Cinderling>create(Cinderling::new, EntityClassification.CREATURE)
                             .size(0.9f, 1.3f)
                             .build(new ResourceLocation(CrystalArchitect.MOD_ID, "cinderling").toString()));
+
+    public static final RegistryObject<EntityType<HyperlanePhantom>> HYPERLANE_PHANTOM = ENTITY_TYPES
+            .register("hyperlane_phantom",
+                    () -> EntityType.Builder.<HyperlanePhantom>create(HyperlanePhantom::new, EntityClassification.CREATURE)
+                            .size(0.9f, 1.3f)
+                            .build(new ResourceLocation(CrystalArchitect.MOD_ID, "hyperlane_phantom").toString()));
 
 
 
@@ -244,6 +264,14 @@ public class RegistryHandler {
             .register("solution_tank", () -> TileEntityType.Builder
                     .create(SolutionTankTileEntity::new, RegistryHandler.SOLUTION_TANK.get()).build(null));
 
+//    public static final RegistryObject<TileEntityType<HyperlaneBasicTeleporterTileEntity>> HYPERLANE_BASIC_TELEPORTER_TILE_ENTITY = TILE_ENTITY_TYPES
+//            .register("hyperlane_basic_teleporter", () -> TileEntityType.Builder
+//                    .create(HyperlaneBasicTeleporterTileEntity::new, RegistryHandler.HYPERLANE_BASIC_TELEPORTER.get()).build(null));
+
+    public static final RegistryObject<TileEntityType<HyperlaneFurnaceTileEntity>> HYPERLANE_FURNACE_TILE_ENTITY = TILE_ENTITY_TYPES
+            .register("hyperlane_furnace", () -> TileEntityType.Builder
+                    .create(HyperlaneFurnaceTileEntity::new, RegistryHandler.HYPERLANE_FURNACE.get()).build(null));
+
 
 
     //containers
@@ -254,6 +282,11 @@ public class RegistryHandler {
     public static final RegistryObject<ContainerType<MultiboxChestContainer>> MULTIBOX_CHEST_CONTAINER = CONTAINER_TYPE_DEFERRED_REGISTER
             .register("multibox_chest_container", () -> IForgeContainerType.create(MultiboxChestContainer::new));
 
+//    public static final RegistryObject<ContainerType<HyperlaneBasicTeleporterContainer>> HYPERLANE_BASIC_TELEPORTER_CONTAINER = CONTAINER_TYPE_DEFERRED_REGISTER
+//            .register("hyperlane_basic_teleporter_container", () -> IForgeContainerType.create(HyperlaneBasicTeleporterContainer::new));
+
+    public static final RegistryObject<ContainerType<HyperlaneFurnaceContainer>> HYPERLANE_FURNACE_CONTAINER = CONTAINER_TYPE_DEFERRED_REGISTER
+            .register("hyperlane_furance_container", () -> IForgeContainerType.create(HyperlaneFurnaceContainer::new));
 
 
     //sounds
@@ -277,7 +310,7 @@ public class RegistryHandler {
     public static final RegistryObject<Biome> HYPERLANE_DRIFTS = BIOMES.register("hyperlane_drifts",
             () -> new HyperlaneDrifts(new Biome.Builder().precipitation(Biome.RainType.SNOW).scale(1.2f).temperature(0.5f)
                     .waterColor(16777215).waterFogColor(16777215)
-                    .surfaceBuilder(SurfaceBuilder.DEFAULT,
+                    .surfaceBuilder(HyperlaneDriftsSurfaceBuilder.DEFAULT,
                             new SurfaceBuilderConfig(
                                     RegistryHandler.HYPERLANE_GEL_BLOCK.get().getDefaultState(),
                                     RegistryHandler.HYPERLANE_GRAVEL.get().getDefaultState(),

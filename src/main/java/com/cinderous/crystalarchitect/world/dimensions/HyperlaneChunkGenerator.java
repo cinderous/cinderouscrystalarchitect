@@ -128,7 +128,7 @@ public class HyperlaneChunkGenerator extends NoiseChunkGenerator<HyperlaneGenSet
     }
 
     public int getSeaLevel() {
-        return 68;
+        return 200;
     }
 
 

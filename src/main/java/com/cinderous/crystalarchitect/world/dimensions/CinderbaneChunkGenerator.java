@@ -1,5 +1,6 @@
 package com.cinderous.crystalarchitect.world.dimensions;
 
+import com.cinderous.crystalarchitect.util.RegistryHandler;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -32,6 +33,7 @@ public class CinderbaneChunkGenerator extends NoiseChunkGenerator<CinderbaneGenS
         this.randomSeed.skip(2620);
         this.depthNoise = new OctavesNoiseGenerator(this.randomSeed, 15, 0);
         this.isAmplified = worldIn.getWorldInfo().getGenerator() == WorldType.AMPLIFIED;
+
     }
 
     @SuppressWarnings("unused")

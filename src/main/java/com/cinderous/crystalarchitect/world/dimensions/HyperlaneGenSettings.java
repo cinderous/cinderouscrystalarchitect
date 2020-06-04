@@ -1,5 +1,7 @@
 package com.cinderous.crystalarchitect.world.dimensions;
 
+import com.cinderous.crystalarchitect.util.RegistryHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.world.gen.GenerationSettings;
 
 public class HyperlaneGenSettings extends GenerationSettings {
@@ -19,5 +21,12 @@ public class HyperlaneGenSettings extends GenerationSettings {
     @Override
     public int getBedrockFloorHeight() {
         return 0;
+    }
+
+
+    @Override
+    public BlockState getDefaultBlock() {
+        setDefaultBlock(RegistryHandler.HYPERLANE_GRAVEL.get().getDefaultState());
+        return super.getDefaultBlock();
     }
 }
