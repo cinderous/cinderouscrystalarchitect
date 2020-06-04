@@ -22,8 +22,12 @@ public class HyperlaneLivingEvent {
         if (livingEntity.getActivePotionEffect(RegistryHandler.HYPERLANE_EFFECT.get()) != null) {
             livingEntity.setGlowing(true);
             if (world.getBlockState(livingEntity.getPosition()) == Blocks.AIR.getDefaultState() || world.getBlockState(livingEntity.getPosition()) == Blocks.WATER.getDefaultState()) {
-                CrystalArchitect.LOGGER.info("HYPERLANE GEL BEING ADDED BELOW PLAYER");
-                world.setBlockState(livingEntity.getPosition(), RegistryHandler.HYPERLANE_GEL_SLAB.get().getDefaultState());
+                //checking to ensure they are not submerged under water
+                if (world.getBlockState(livingEntity.getPosition().up(2)) != Blocks.WATER.getDefaultState()) {
+                    CrystalArchitect.LOGGER.info("HYPERLANE GEL BEING ADDED BELOW PLAYER");
+                    world.setBlockState(livingEntity.getPosition(), RegistryHandler.HYPERLANE_GEL_SLAB.get().getDefaultState());
+                }
+
             }
 
 
